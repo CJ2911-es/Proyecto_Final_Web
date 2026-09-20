@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecnología Altoque</title>
+<link rel="icon" href="img/logo.jpg">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+<div class="barra-superior">¡Vive la tecnología! Compra seguro las 24 horas del día :p</div>
+
+<header class="header">
+    <div class="logo"><img src="img/logo.jpg" alt="Tecnología Altoque"></div>
+    <button class="btn-menu" id="btnMenu">☰ Menú</button>
+
+    <div class="buscador">
+        <input type="text" placeholder="Busca productos, marcas y más...">
+        <button>🔍</button>
+    </div>
+
+    <div class="carrito">🛒 <span>0</span></div>
+</header>
+
+<aside class="menu-lateral" id="menuLateral">
+    <div class="menu-titulo">
+        <h2>Menú</h2>
+        <button id="btnCerrar">✕</button>
+    </div>
+
+    <div class="menu-busqueda">
+        <input type="text" placeholder="Busca productos..."> 🔍
+    </div>
+
+    <nav class="categorias-menu">
+
+        <div class="categoria-desplegable">
+            <button class="btn-categoria">PCs, Laptops y Tablets <span>›</span></button>
+
+            <div class="submenu">
+                <button class="btn-categoria">Marcas <span>›</span></button>
+                <div class="submenu marcas">
+                  <a href="#" class="filtro" data-categoria="asus">ASUS</a>
+                    <a href="#" class="filtro" data-categoria="lenovo">Lenovo</a>
+                    <a href="#" class="filtro" data-categoria="hp">HP</a>
+                    <a href="#" class="filtro" data-categoria="msi">MSI</a>
+                    <a href="#" class="filtro" data-categoria="acer">Acer</a>
+                </div>
+
+                <a href="#">Gaming</a>
+                <a href="#">Oficina</a>
+                <a href="#">Workstation</a>
+            </div>
+        </div>
+
+        <a href="#">Componentes <span>›</span></a>
+        <a href="#">Periféricos <span>›</span></a>
+        <a href="#">Impresoras y Suministros <span>›</span></a>
+        <a href="#">Audio y Video <span>›</span></a>
+        <a href="#">Celulares y Accesorios <span>›</span></a>
+        <a href="#">Tecnología y Dispositivos <span>›</span></a>
+        <a href="#">Energía <span>›</span></a>
+        <a href="#">Sillas y Mesa Gamer <span>›</span></a>
+        <a href="#">Redes y Comunicación <span>›</span></a>
+        <a href="#">Software <span>›</span></a>
+        <a href="#">Punto de Venta <span>›</span></a>
+
+    </nav>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<main>
+    <section class="banner">
+        <img src="img/banner.jpg" width="450px" alt="Promoción">
+        <div class="banner-contenido">
+            <p>TECNOLOGÍA PARA TODOS</p>
+            <h1>Todo lo que necesitas :p<br>en un solo lugar</h1>
+            <button>Ver productos</button>
+        </div>
+    </section>
+
+    <section class="seccion">
+        <div class="titulo-seccion">
+            <div>
+                <h2>Categorías</h2>
+                <p>Encuentra lo que necesitas</p>
+            </div>
+        </div>
+
+        <div class="categorias">
+            <div class="categoria"><div class="categoria-icono">💻</div><h3>Computadoras</h3></div>
+            <div class="categoria"><div class="categoria-icono">🖱️</div><h3>Periféricos</h3></div>
+            <div class="categoria"><div class="categoria-icono">🎧</div><h3>Audio</h3></div>
+            <div class="categoria"><div class="categoria-icono">📱</div><h3>Celulares</h3></div>
+            <div class="categoria"><div class="categoria-icono">🌐</div><h3>Redes</h3></div>
+            <div class="categoria"><div class="categoria-icono">🎮</div><h3>Gaming</h3></div>
+        </div>
+    </section>
+
+    <section class="seccion">
+        <div class="titulo-seccion">
+            <div>
+                <h2>Productos Destacados</h2>
+                <p>Los productos favoritos de nuestros clientes</p>
+            </div>
+            <a href="#" class="ver-todos">Ver todos →</a>
+        </div>
+
+        <div class="productos">
+
+            <article class="producto">
+                <div class="producto-imagen"><span class="oferta">OFERTA</span>
+                    <img src="img/productos/mouse.jpg" width="300px" alt="Mouse">
+                </div>
+                <div class="producto-info">
+                    <p class="marca">Logitech</p>
+                    <h3>Mouse Logitech G502 Hero</h3>
+                    <div class="precios"><span class="precio-antiguo">S/ 209.90</span><span class="precio">S/ 189.90</span></div>
+                    <button class="btn-carrito">🛒 Agregar al carrito</button>
+                </div>
+            </article>
+
+            <article class="producto">
+                <div class="producto-imagen"><span class="oferta">OFERTA</span>
+                    <img src="img/productos/g305.jpg" width="300px" alt="Mouse">
+                </div>
+                <div class="producto-info">
+                    <p class="marca">Logitech</p>
+                    <h3>Mouse Logitech G305 LIGHTSPEED</h3>
+                    <div class="precios"><span class="precio-antiguo">S/ 179.90</span><span class="precio">S/ 149.90</span></div>
+                    <button class="btn-carrito">🛒 Agregar al carrito</button>
+                </div>
+            </article>
+
+            <article class="producto">
+                <div class="producto-imagen"><span class="oferta">OFERTA</span>
+                    <img src="img/productos/g203.png" width="300px" alt="Mouse">
+                </div>
+                <div class="producto-info">
+                    <p class="marca">Logitech</p>
+                    <h3>Mouse Logitech G203 LIGHTSYNC</h3>
+                    <div class="precios"><span class="precio-antiguo">S/ 99.90</span><span class="precio">S/ 89.00</span></div>
+                    <button class="btn-carrito">🛒 Agregar al carrito</button>
+                </div>
+            </article>
+
+            <article class="producto">
+                <div class="producto-imagen"><span class="oferta">OFERTA</span>
+                    <img src="img/productos/gpro.png" width="300px" alt="Mouse">
+                </div>
+                <div class="producto-info">
+                    <p class="marca">Logitech</p>
+                    <h3>Mouse Logitech G PRO X SUPERLIGHT PINK</h3>
+                    <div class="precios"><span class="precio-antiguo">S/ 499.90</span><span class="precio">S/ 439.50</span></div>
+                    <button class="btn-carrito">🛒 Agregar al carrito</button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="nosotros">
+        <p class="subtitulo">SOBRE NOSOTROS</p>
+        <h2>Tecnología al alcance de todos</h2>
+        <p>En Tecnología Altoque encontrarás productos tecnológicos, accesorios y soluciones para tu hogar, trabajo y entretenimiento.</p>
+    </section>
+</main>
+
+<footer class="footer">
+    <div><h3>Tecnología Altoque</h3><p>Tu tienda de tecnología.</p></div>
+    <div><h4>Categorías</h4><a href="#">Computadoras</a><a href="#">Periféricos</a><a href="#">Redes</a><a href="#">Gaming</a></div>
+    <div><h4>Atención</h4><p>Lunes a sábado</p><p>9:00 AM - 7:00 PM</p></div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

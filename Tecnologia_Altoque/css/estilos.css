@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}
+body{background:#f5f7fa;color:#111827}
+.barra-superior{height:38px;background:#041d38;color:white;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+.header{min-height:90px;background:#062b52;display:flex;align-items:center;gap:25px;padding:15px 5%;position:sticky;top:0;z-index:1000;box-shadow:0 4px 15px #0002}
+.logo{width:150px;flex-shrink:0}.logo img{width:100%;max-height:60px;object-fit:contain;display:block}
+
+.btn-menu{background:none;border:2px solid white;color:white;padding:11px 18px;border-radius:25px;font-weight:600;cursor:pointer}
+.btn-menu:hover{background:white;color:#062b52}
+
+.buscador{flex:1;height:52px;background:white;border-radius:30px;display:flex;overflow:hidden}
+.buscador input{flex:1;border:0;outline:0;padding:0 20px;font-size:15px}
+.buscador button{width:60px;border:0;background:white;font-size:20px;cursor:pointer}
+
+.carrito{width:55px;height:55px;color:white;display:flex;align-items:center;justify-content:center;font-size:24px;position:relative}
+.carrito span{position:absolute;top:0;right:0;width:22px;height:22px;background:#facc15;color:#111827;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center}
+
+.menu-lateral{position:fixed;top:0;left:-380px;width:360px;height:100vh;background:white;z-index:2000;transition:.3s;overflow-y:auto;box-shadow:5px 0 25px #0003}
+.menu-lateral.activo{left:0}
+.menu-titulo{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #e5e7eb}
+.menu-titulo h2{color:#062b52}.menu-titulo button{border:0;background:none;font-size:22px;cursor:pointer}
+.menu-busqueda{margin:18px;padding:12px 15px;background:#f1f5f9;border-radius:8px;display:flex;gap:10px}
+.menu-busqueda input{flex:1;border:0;outline:0;background:none}
+
+.categorias-menu{display:flex;flex-direction:column}
+.categorias-menu a{color:#111827;text-decoration:none;padding:16px 22px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9}
+.categorias-menu a:hover{background:#f8fafc;color:#0b4f8a}
+.categorias-menu span{font-size:24px}
+
+.btn-categoria{width:100%;padding:16px 22px;border:0;background:white;color:#111827;display:flex;justify-content:space-between;font-size:15px;font-weight:600;cursor:pointer;text-align:left}
+.submenu{display:none;background:#f8fafc}.submenu.activo{display:block}
+.submenu a{padding:12px 22px 12px 42px;font-size:14px}
+.submenu .btn-categoria{padding-left:42px;background:#f8fafc}
+.submenu.marcas{background:white}
+
+.overlay{position:fixed;inset:0;background:#0009;z-index:1500;opacity:0;visibility:hidden;transition:.3s}
+.overlay.activo{opacity:1;visibility:visible}
+
+main{max-width:1400px;margin:auto;padding:25px 5%}
+.banner{height:400px;border-radius:18px;overflow:hidden;position:relative;margin-bottom:45px;background:#062b52}
+.banner img{width:100%;height:100%;object-fit:cover}
+.banner:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#000c,#0002)}
+.banner-contenido{position:absolute;left:6%;top:50%;transform:translateY(-50%);z-index:2;color:white;max-width:550px}
+.banner-contenido p{color:#38bdf8;font-weight:700;font-size:14px;letter-spacing:2px}
+.banner-contenido h1{font-size:42px;line-height:1.15;margin:10px 0 25px}
+.banner-contenido button{background:#ff6b00;color:white;border:0;padding:13px 25px;border-radius:8px;font-weight:700}
+
+.seccion{margin-bottom:55px}.titulo-seccion{display:flex;align-items:end;justify-content:space-between;margin-bottom:25px}
+.titulo-seccion h2{font-size:26px;color:#062b52}.titulo-seccion p{color:#64748b;font-size:14px}.ver-todos{color:#0b4f8a;text-decoration:none;font-weight:700}
+
+.categorias{display:grid;grid-template-columns:repeat(6,1fr);gap:15px}
+.categoria{background:white;border:1px solid #e5e7eb;border-radius:12px;padding:22px 10px;text-align:center;transition:.25s}
+.categoria:hover{transform:translateY(-5px);box-shadow:0 10px 25px #0001}
+.categoria-icono{font-size:32px;margin-bottom:10px}.categoria h3{font-size:13px}
+
+.productos{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.producto{background:white;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;transition:.25s}
+.producto:hover{transform:translateY(-6px);box-shadow:0 15px 35px #0002}
+.producto-imagen{height:230px;background:#f8fafc;display:flex;align-items:center;justify-content:center;position:relative}
+.producto-imagen img{width:90%;height:90%;object-fit:contain}
+.oferta{position:absolute;top:12px;left:12px;background:#ff6b00;color:white;padding:5px 9px;border-radius:5px;font-size:10px;font-weight:800}
+.producto-info{padding:18px}.marca{color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase}
+.producto-info h3{font-size:15px;min-height:43px;margin:8px 0 15px}
+.precio-antiguo{display:block;color:#94a3b8;font-size:12px;text-decoration:line-through}
+.precio{display:block;color:#ff6b00;font-size:21px;font-weight:800}
+.precios{margin-bottom:15px}
+.btn-carrito{width:100%;padding:11px;border:0;border-radius:8px;background:#062b52;color:white;font-weight:700;cursor:pointer}
+.btn-carrito:hover{background:#ff6b00}
+
+.nosotros{background:white;padding:40px;border-radius:15px;margin-bottom:40px}.nosotros h2{color:#062b52;margin:10px 0}.subtitulo{color:#ff6b00;font-weight:700}
+.footer{background:#062b52;color:white;display:flex;justify-content:space-around;gap:30px;padding:40px 5%}.footer div{display:flex;flex-direction:column;gap:8px}.footer a{color:#cbd5e1;text-decoration:none}
+
+@media(max-width:1000px){
+.categorias{grid-template-columns:repeat(3,1fr)}
+.productos{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+.header{flex-wrap:wrap;padding:12px 15px}.logo{width:110px}.btn-menu{margin-left:auto}
+.buscador{order:5;flex-basis:100%;height:45px}main{padding:15px 12px}
+.banner{height:300px}.banner-contenido h1{font-size:29px}
+.categorias{grid-template-columns:repeat(2,1fr)}.productos{gap:10px}
+.producto-imagen{height:160px}.producto-info{padding:12px}.producto-info h3{font-size:13px}
+.precio{font-size:18px}.footer{flex-direction:column}
+}
