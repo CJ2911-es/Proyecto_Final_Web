@@ -113,4 +113,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     actualizarCarritoHTML();
+
+    // --- 5. LÓGICA DE FILTRADO POR CATEGORÍAS ---
+    const botonesCategoria = document.querySelectorAll('.categoria');
+    const listaProductos = document.querySelectorAll('.producto');
+
+    botonesCategoria.forEach(boton => {
+        boton.addEventListener('click', () => {
+            // 1. Quitar la clase 'activa' de todos los botones y ponerla al que se hizo clic
+            botonesCategoria.forEach(b => b.classList.remove('activa'));
+            boton.classList.add('activa');
+
+            // 2. Obtener el nombre de la categoría seleccionada
+            const categoriaSeleccionada = boton.getAttribute('data-categoria');
+
+            // 3. Mostrar u ocultar productos según la categoría
+            listaProductos.forEach(producto => {
+                const categoriaProducto = producto.getAttribute('data-categoria');
+                
+                // Si la categoría seleccionada es "todos" o coincide con la del producto, se muestra
+                if (categoriaSeleccionada === 'todos' || categoriaProducto === categoriaSeleccionada) {
+                    producto.classList.remove('oculto');
+                } else {
+                    // Si no coincide, se oculta
+                    producto.classList.add('oculto');
+                }
+            });
+        });
+    });
 });

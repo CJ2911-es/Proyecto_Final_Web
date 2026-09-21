@@ -100,3 +100,19 @@ main{max-width:1400px;margin:auto;padding:25px 5%}
 .producto-imagen{height:160px}.producto-info{padding:12px}.producto-info h3{font-size:13px}
 .precio{font-size:18px}.footer{flex-direction:column}
 }
+
+.categoria {
+    cursor: pointer; /* Cambia el cursor a una mano */
+}
+
+/* Estilo para resaltar la categoría que está seleccionada */
+.categoria.activa {
+    border-color: #ff6b00;
+    box-shadow: 0 10px 25px rgba(255, 107, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Clase para ocultar productos filtrados */
+.producto.oculto {
+    display: none;
+}

@@ -100,16 +100,16 @@
                 <h2>Categorías</h2>
                 <p>Encuentra lo que necesitas</p>
             </div>
-        </div>
-
-        <div class="categorias">
-            <div class="categoria"><div class="categoria-icono">💻</div><h3>Computadoras</h3></div>
-            <div class="categoria"><div class="categoria-icono">🖱️</div><h3>Periféricos</h3></div>
-            <div class="categoria"><div class="categoria-icono">🎧</div><h3>Audio</h3></div>
-            <div class="categoria"><div class="categoria-icono">📱</div><h3>Celulares</h3></div>
-            <div class="categoria"><div class="categoria-icono">🌐</div><h3>Redes</h3></div>
-            <div class="categoria"><div class="categoria-icono">🎮</div><h3>Gaming</h3></div>
-        </div>
+                </div>
+                        <div class="categorias">
+                            <div class="categoria activa" data-categoria="todos"><div class="categoria-icono">🔄</div><h3>Ver Todos</h3></div>
+                                <div class="categoria" data-categoria="computadoras"><div class="categoria-icono">💻</div><h3>Computadoras</h3></div>
+                                        <div class="categoria" data-categoria="perifericos"><div class="categoria-icono">🖱️</div><h3>Periféricos</h3></div>
+                                        <div class="categoria" data-categoria="audio"><div class="categoria-icono">🎧</div><h3>Audio</h3></div>
+                                <div class="categoria" data-categoria="celulares"><div class="categoria-icono">📱</div><h3>Celulares</h3></div>
+                            <div class="categoria" data-categoria="redes"><div class="categoria-icono">🌐</div><h3>Redes</h3></div>
+                        <div class="categoria" data-categoria="gaming"><div class="categoria-icono">🎮</div><h3>Gaming</h3></div>
+                </div>
     </section>
 
     <section class="seccion">
@@ -123,7 +123,7 @@
 
         <div class="productos">
 
-            <article class="producto">
+            <article class="producto"   data-categoria="perifericos">
                 <div class="producto-imagen"><span class="oferta">OFERTA</span>
                     <img src="img/productos/mouse.jpg" width="300px" alt="Mouse">
                 </div>
@@ -135,7 +135,7 @@
                 </div>
             </article>
 
-            <article class="producto">
+            <article class="producto " data-categoria="perifericos">
                 <div class="producto-imagen"><span class="oferta">OFERTA</span>
                     <img src="img/productos/g305.jpg" width="300px" alt="Mouse">
                 </div>
@@ -147,7 +147,7 @@
                 </div>
             </article>
 
-            <article class="producto">
+            <article class="producto" data-categoria="perifericos">
                 <div class="producto-imagen"><span class="oferta">OFERTA</span>
                     <img src="img/productos/g203.png" width="300px" alt="Mouse">
                 </div>
@@ -159,7 +159,7 @@
                 </div>
             </article>
 
-            <article class="producto">
+            <article class="producto" data-categoria="perifericos">
                 <div class="producto-imagen"><span class="oferta">OFERTA</span>
                     <img src="img/productos/gpro.png" width="300px" alt="Mouse">
                 </div>
