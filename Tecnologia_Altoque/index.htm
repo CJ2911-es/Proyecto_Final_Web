@@ -1,179 +1,298 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tecnología Altoque</title>
-<link rel="icon" href="img/logo.jpg">
-<link rel="stylesheet" href="css/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnología Altoque | Vive la tecnología</title>
+    <link rel="icon" href="img/logo.jpg">
+    <!-- Aplica el tema guardado antes de pintar la página (evita el parpadeo) -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('temaAltoque');
+                if (t) document.documentElement.setAttribute('data-tema', t);
+            } catch (e) {}
+        })();
+    </script>
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 
 <body>
-<div class="barra-superior">¡Vive la tecnología! Compra seguro las 24 horas del día :p</div>
+    <!-- Barra superior con mensaje promocional -->
+    <div class="barra-superior">¡Vive la tecnología! Compra seguro las 24 horas del día :p</div>
 
-<header class="header">
-    <div class="logo"><img src="img/logo.jpg" alt="Tecnología Altoque"></div>
-    <button class="btn-menu" id="btnMenu">☰ Menú</button>
+    <!-- ENCABEZADO fijo: logo, menú, buscador, botón de tema y carrito -->
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.jpg" alt="Tecnología Altoque"></a>
+        </div>
+        <button class="btn-menu" id="btnMenu">☰ Menú</button>
 
-    <div class="buscador">
-        <input type="text" placeholder="Busca productos, marcas y más...">
-        <button>🔍</button>
-    </div>
+        <!-- Buscador: filtra los productos mientras escribes -->
+        <div class="buscador">
+            <input type="text" placeholder="Busca productos, marcas y más...">
+            <button aria-label="Buscar">🔍</button>
+        </div>
 
-    <div class="carrito">🛒 <span>0</span></div>
-</header>
+        <!-- Cambia entre tema claro y oscuro -->
+        <button class="btn-tema" id="btnTema" aria-label="Cambiar tema claro/oscuro">🌙</button>
 
-<aside class="menu-lateral" id="menuLateral">
-    <div class="menu-titulo">
-        <h2>Menú</h2>
-        <button id="btnCerrar">✕</button>
-    </div>
+        <!-- Abre el panel del carrito; el <span> es el contador de productos -->
+        <button class="carrito flex-center" id="btnCarrito" aria-label="Abrir carrito">
+            <span id="contadorCarrito">0</span>
+            🛒
+        </button>
+    </header>
 
-    <div class="menu-busqueda">
-        <input type="text" placeholder="Busca productos..."> 🔍
-    </div>
+    <!-- MENÚ LATERAL: data-cat / data-marca / data-tipo indican qué filtro aplica cada enlace -->
+    <aside class="menu-lateral" id="menuLateral">
+        <div class="menu-titulo">
+            <h2>Menú</h2>
+            <button id="btnCerrar" aria-label="Cerrar menú">✕</button>
+        </div>
 
-    <nav class="categorias-menu">
+        <div class="menu-busqueda">
+            <input type="text" placeholder="Busca productos..."> 🔍
+        </div>
 
-        <div class="categoria-desplegable">
-            <button class="btn-categoria">PCs, Laptops y Tablets <span>›</span></button>
+        <nav class="categorias-menu">
+            <div class="categoria-desplegable">
+                <button class="btn-categoria">
+                    PCs, Laptops y Tablets <span>›</span>
+                </button>
 
-            <div class="submenu">
-                <button class="btn-categoria">Marcas <span>›</span></button>
-                <div class="submenu marcas">
-                  <a href="#" class="filtro" data-categoria="asus">ASUS</a>
-                    <a href="#" class="filtro" data-categoria="lenovo">Lenovo</a>
-                    <a href="#" class="filtro" data-categoria="hp">HP</a>
-                    <a href="#" class="filtro" data-categoria="msi">MSI</a>
-                    <a href="#" class="filtro" data-categoria="acer">Acer</a>
+                <div class="submenu">
+                    <button class="btn-categoria">
+                        Marcas <span>›</span>
+                    </button>
+                    <div class="submenu marcas">
+                        <a href="#" data-marca="asus">ASUS</a>
+                        <a href="#" data-marca="lenovo">Lenovo</a>
+                        <a href="#" data-marca="hp">HP</a>
+                        <a href="#" data-marca="msi">MSI</a>
+                        <a href="#" data-marca="acer">Acer</a>
+                    </div>
+                    <a href="#" data-cat="computadoras">Ver todo</a>
+                    <a href="#" data-tipo="gaming">Gaming</a>
+                    <a href="#" data-tipo="oficina">Oficina</a>
+                    <a href="#" data-tipo="workstation">Workstation</a>
                 </div>
+            </div>
 
+            <a href="#" data-cat="componentes">Componentes <span>›</span></a>
+            <a href="#" data-cat="perifericos">Periféricos <span>›</span></a>
+            <a href="#" data-cat="impresoras">Impresoras y Suministros <span>›</span></a>
+            <a href="#" data-cat="audio">Audio y Video <span>›</span></a>
+            <a href="#" data-cat="celulares">Celulares y Accesorios <span>›</span></a>
+            <a href="#" data-cat="tecnologia">Tecnología y Dispositivos <span>›</span></a>
+            <a href="#" data-cat="energia">Energía <span>›</span></a>
+            <a href="#" data-cat="gaming">Sillas y Mesa Gamer <span>›</span></a>
+            <a href="#" data-cat="redes">Redes y Comunicación <span>›</span></a>
+            <a href="#" data-cat="software">Software <span>›</span></a>
+            <a href="#" data-cat="pos">Punto de Venta <span>›</span></a>
+        </nav>
+    </aside>
+
+    <!-- Panel emergente del carrito -->
+    <!-- PANEL DEL CARRITO: su contenido lo dibuja script.js -->
+    <aside class="carrito-panel" id="carritoPanel" aria-label="Carrito de compras">
+        <div class="panel-cab">
+            <h2>🛒 Mi carrito</h2>
+            <button id="btnCerrarCarrito" aria-label="Cerrar carrito">✕</button>
+        </div>
+
+        <div class="panel-lista" id="listaCarrito">
+            <!-- Los productos se dibujan desde js/script.js -->
+        </div>
+
+        <div class="panel-pie" id="pieCarrito">
+            <div class="resumen-fila">
+                <span>Productos</span>
+                <span id="resumenCantidad">0</span>
+            </div>
+            <div class="resumen-fila total">
+                <span>Total</span>
+                <span id="resumenTotal">S/ 0.00</span>
+            </div>
+            <button class="btn-pagar" id="btnPagar">Finalizar compra</button>
+            <button class="btn-vaciar" id="btnVaciar">🗑 Vaciar carrito</button>
+        </div>
+    </aside>
+
+    <!-- Fondo oscuro: al hacer clic cierra los paneles -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <!-- BANNER CARRUSEL: cada .slide es una diapositiva; script.js las cambia solas cada 5 s -->
+        <section class="banner" id="banner">
+            <!-- Diapositiva 1 (la activa al inicio) -->
+            <div class="slide activo">
+                <img src="img/banner.jpg" alt="Promoción Tecnología Altoque" loading="eager">
+                <div class="banner-contenido">
+                    <p>TECNOLOGÍA PARA TODOS</p>
+                    <h1>Todo lo que necesitas :p<br>en un solo lugar</h1>
+                    <button>Ver productos</button>
+                </div>
+            </div>
+            <!-- Diapositiva 2: si no existe img/banner2.jpg se ve el fondo de color -->
+            <div class="slide slide-2">
+                <img src="img/banner2.jpg" alt="" onerror="this.remove()">
+                <div class="banner-contenido">
+                    <p>ZONA GAMER</p>
+                    <h2>Sube de nivel<br>tu setup</h2>
+                    <button data-cat="gaming">Ver gaming</button>
+                </div>
+            </div>
+            <!-- Diapositiva 3 -->
+            <div class="slide slide-3">
+                <img src="img/banner3.jpg" alt="" onerror="this.remove()">
+                <div class="banner-contenido">
+                    <p>OFERTAS DE LA SEMANA</p>
+                    <h2>Laptops desde<br>S/ 1,799</h2>
+                    <button data-cat="computadoras">Ver laptops</button>
+                </div>
+            </div>
+            <button class="flecha izq" id="bannerPrev" aria-label="Anterior">‹</button>
+            <button class="flecha der" id="bannerNext" aria-label="Siguiente">›</button>
+            <div class="puntos" id="bannerPuntos"></div>
+        </section>
+
+        <!-- Franja de beneficios de la tienda -->
+        <section class="beneficios">
+            <div class="beneficio"><span>🚚</span><div><h4>Envíos a todo el Perú</h4><p>Rápidos y seguros</p></div></div>
+            <div class="beneficio"><span>🛡️</span><div><h4>Garantía oficial</h4><p>En todos los productos</p></div></div>
+            <div class="beneficio"><span>💳</span><div><h4>Pago seguro</h4><p>Tarjeta, Yape o Plin</p></div></div>
+            <div class="beneficio"><span>💬</span><div><h4>Soporte 24/7</h4><p>Siempre te ayudamos</p></div></div>
+        </section>
+
+        <section class="seccion">
+            <div class="titulo-seccion">
+                <div>
+                    <h2>Categorías</h2>
+                    <p>Encuentra lo que necesitas</p>
+                </div>
+            </div>
+
+            <!-- Tarjetas de categorías: al hacer clic filtran los productos -->
+            <div class="grid-categorias">
+                <div class="categoria-card"><div class="categoria-icono">💻</div><h3>Computadoras</h3></div>
+                <div class="categoria-card"><div class="categoria-icono">🖱️</div><h3>Periféricos</h3></div>
+                <div class="categoria-card"><div class="categoria-icono">🎧</div><h3>Audio</h3></div>
+                <div class="categoria-card"><div class="categoria-icono">📱</div><h3>Celulares</h3></div>
+                <div class="categoria-card"><div class="categoria-icono">🌐</div><h3>Redes</h3></div>
+                <div class="categoria-card"><div class="categoria-icono">🎮</div><h3>Gaming</h3></div>
+            </div>
+        </section>
+
+        <section class="seccion">
+            <div class="titulo-seccion">
+                <div>
+                    <h2 id="productos">Nuestros Productos</h2>
+                    <p>Elige una categoría o usa el buscador</p>
+                </div>
+                <a href="#" class="ver-todos">Ver todos →</a>
+            </div>
+
+            <!-- Botones de filtro (los crea JS) -->
+            <div class="filtros" id="filtros"></div>
+            <!-- Aquí JS dibuja las tarjetas de producto -->
+            <div class="grid-productos" id="gridProductos"></div>
+        </section>
+
+        <!-- Sección "Sobre nosotros" -->
+        <section class="nosotros-card">
+            <p class="nosotros-label">SOBRE NOSOTROS</p>
+            <h2>Tecnología al alcance de todos</h2>
+            <p>En Tecnología Altoque encontrarás productos tecnológicos, accesorios y soluciones para tu hogar, trabajo y entretenimiento.</p>
+        </section>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>Tecnología Altoque</h3>
+                <p>Tu tienda de tecnología confiable.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Categorías</h4>
+                <a href="#">Computadoras</a>
+                <a href="#">Periféricos</a>
+                <a href="#">Redes</a>
                 <a href="#">Gaming</a>
-                <a href="#">Oficina</a>
-                <a href="#">Workstation</a>
+            </div>
+            <div class="footer-col">
+                <h4>Atención</h4>
+                <p>Lunes a sábado</p>
+                <p>9:00 AM - 7:00 PM</p>
             </div>
         </div>
+        <p class="footer-copy">© 2026 Tecnología Altoque · Todos los derechos reservados</p>
+    </footer>
 
-        <a href="#">Componentes <span>›</span></a>
-        <a href="#">Periféricos <span>›</span></a>
-        <a href="#">Impresoras y Suministros <span>›</span></a>
-        <a href="#">Audio y Video <span>›</span></a>
-        <a href="#">Celulares y Accesorios <span>›</span></a>
-        <a href="#">Tecnología y Dispositivos <span>›</span></a>
-        <a href="#">Energía <span>›</span></a>
-        <a href="#">Sillas y Mesa Gamer <span>›</span></a>
-        <a href="#">Redes y Comunicación <span>›</span></a>
-        <a href="#">Software <span>›</span></a>
-        <a href="#">Punto de Venta <span>›</span></a>
-
-    </nav>
-</aside>
-
-<div class="overlay" id="overlay"></div>
-
-<main>
-    <section class="banner">
-        <img src="img/banner.jpg" width="450px" alt="Promoción">
-        <div class="banner-contenido">
-            <p>TECNOLOGÍA PARA TODOS</p>
-            <h1>Todo lo que necesitas :p<br>en un solo lugar</h1>
-            <button>Ver productos</button>
+    <!-- ASISTENTE COCO: mascota (cocodrilo SVG animado) + ventana de chat. La lógica está en script.js -->
+    <div class="coco" id="coco">
+        <div class="coco-chat" id="cocoChat">
+            <div class="coco-cab"><strong>🐊 Coco</strong><span>Asistente Altoque</span><button id="cocoCerrar" aria-label="Cerrar">✕</button></div>
+            <div class="coco-msgs" id="cocoMsgs"></div>
+            <div class="coco-rapidas" id="cocoRapidas"></div>
+            <form class="coco-form" id="cocoForm">
+                <input id="cocoInput" placeholder="Escribe tu pregunta..." autocomplete="off">
+                <button type="submit" aria-label="Enviar">➤</button>
+            </form>
         </div>
-    </section>
+        <div class="coco-saludo oculto" id="cocoSaludo">¡Hola! Soy Coco 🐊 ¿Te ayudo?</div>
+        <button class="coco-btn" id="cocoBtn" aria-label="Abrir asistente Coco">
+            <!-- Dibujo del cocodrilo: cabeza, ojos (parpadean), hocico, dientes y el rayo de la marca -->
+            <svg class="coco-svg" viewBox="0 0 120 100">
+                <ellipse cx="60" cy="62" rx="44" ry="30" fill="#22c55e"/>
+                <ellipse cx="60" cy="74" rx="36" ry="18" fill="#86efac"/>
+                <circle cx="38" cy="34" r="14" fill="#22c55e"/><circle cx="82" cy="34" r="14" fill="#22c55e"/>
+                <g class="coco-ojos">
+                    <circle cx="38" cy="34" r="9" fill="#fff"/><circle cx="82" cy="34" r="9" fill="#fff"/>
+                    <circle cx="40" cy="35" r="4.5" fill="#062b52"/><circle cx="80" cy="35" r="4.5" fill="#062b52"/>
+                </g>
+                <circle cx="50" cy="64" r="2.5" fill="#15803d"/><circle cx="70" cy="64" r="2.5" fill="#15803d"/>
+                <path d="M32 78 Q60 98 88 78" stroke="#15803d" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <polygon points="38,81 43,90 48,83" fill="#fff"/><polygon points="72,83 77,90 82,81" fill="#fff"/>
+                <polygon points="62,6 51,28 59,28 55,46 71,22 62,22" fill="#ff6b00"/>
+            </svg>
+        </button>
+    </div>
 
-    <section class="seccion">
-        <div class="titulo-seccion">
-            <div>
-                <h2>Categorías</h2>
-                <p>Encuentra lo que necesitas</p>
+    <button class="btn-arriba" id="btnArriba" aria-label="Volver arriba">↑</button>
+
+    <!-- VENTANA DE PAGO: el formulario valida con required y type="email" -->
+    <div class="modal" id="modalPago">
+        <div class="modal-caja">
+            <button class="modal-x" id="cerrarPago" aria-label="Cerrar">✕</button>
+            <div id="pagoForm">
+                <h2>Finalizar compra</h2>
+                <p class="modal-sub" id="pagoResumen"></p>
+                <form id="formPago">
+                    <label>Nombre completo<input type="text" id="pNombre" required minlength="3"></label>
+                    <label>Correo<input type="email" id="pCorreo" required></label>
+                    <label>Dirección de envío<input type="text" id="pDir" required minlength="5"></label>
+                    <label>Método de pago
+                        <select id="pMetodo" required>
+                            <option value="">Selecciona...</option>
+                            <option>Tarjeta</option><option>Yape</option><option>Plin</option><option>Contra entrega</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn-pagar">Confirmar pedido</button>
+                </form>
+            </div>
+            <div id="pagoOk" hidden>
+                <div class="ok-icono">✅</div>
+                <h2>¡Gracias por tu compra!</h2>
+                <p class="modal-sub" id="okTexto"></p>
+                <button class="btn-pagar" id="okCerrar">Seguir comprando</button>
             </div>
         </div>
+    </div>
 
-        <div class="categorias">
-            <div class="categoria"><div class="categoria-icono">💻</div><h3>Computadoras</h3></div>
-            <div class="categoria"><div class="categoria-icono">🖱️</div><h3>Periféricos</h3></div>
-            <div class="categoria"><div class="categoria-icono">🎧</div><h3>Audio</h3></div>
-            <div class="categoria"><div class="categoria-icono">📱</div><h3>Celulares</h3></div>
-            <div class="categoria"><div class="categoria-icono">🌐</div><h3>Redes</h3></div>
-            <div class="categoria"><div class="categoria-icono">🎮</div><h3>Gaming</h3></div>
-        </div>
-    </section>
-
-    <section class="seccion">
-        <div class="titulo-seccion">
-            <div>
-                <h2>Productos Destacados</h2>
-                <p>Los productos favoritos de nuestros clientes</p>
-            </div>
-            <a href="#" class="ver-todos">Ver todos →</a>
-        </div>
-
-        <div class="productos">
-
-            <article class="producto">
-                <div class="producto-imagen"><span class="oferta">OFERTA</span>
-                    <img src="img/productos/mouse.jpg" width="300px" alt="Mouse">
-                </div>
-                <div class="producto-info">
-                    <p class="marca">Logitech</p>
-                    <h3>Mouse Logitech G502 Hero</h3>
-                    <div class="precios"><span class="precio-antiguo">S/ 209.90</span><span class="precio">S/ 189.90</span></div>
-                    <button class="btn-carrito">🛒 Agregar al carrito</button>
-                </div>
-            </article>
-
-            <article class="producto">
-                <div class="producto-imagen"><span class="oferta">OFERTA</span>
-                    <img src="img/productos/g305.jpg" width="300px" alt="Mouse">
-                </div>
-                <div class="producto-info">
-                    <p class="marca">Logitech</p>
-                    <h3>Mouse Logitech G305 LIGHTSPEED</h3>
-                    <div class="precios"><span class="precio-antiguo">S/ 179.90</span><span class="precio">S/ 149.90</span></div>
-                    <button class="btn-carrito">🛒 Agregar al carrito</button>
-                </div>
-            </article>
-
-            <article class="producto">
-                <div class="producto-imagen"><span class="oferta">OFERTA</span>
-                    <img src="img/productos/g203.png" width="300px" alt="Mouse">
-                </div>
-                <div class="producto-info">
-                    <p class="marca">Logitech</p>
-                    <h3>Mouse Logitech G203 LIGHTSYNC</h3>
-                    <div class="precios"><span class="precio-antiguo">S/ 99.90</span><span class="precio">S/ 89.00</span></div>
-                    <button class="btn-carrito">🛒 Agregar al carrito</button>
-                </div>
-            </article>
-
-            <article class="producto">
-                <div class="producto-imagen"><span class="oferta">OFERTA</span>
-                    <img src="img/productos/gpro.png" width="300px" alt="Mouse">
-                </div>
-                <div class="producto-info">
-                    <p class="marca">Logitech</p>
-                    <h3>Mouse Logitech G PRO X SUPERLIGHT PINK</h3>
-                    <div class="precios"><span class="precio-antiguo">S/ 499.90</span><span class="precio">S/ 439.50</span></div>
-                    <button class="btn-carrito">🛒 Agregar al carrito</button>
-                </div>
-            </article>
-
-        </div>
-    </section>
-
-    <section class="nosotros">
-        <p class="subtitulo">SOBRE NOSOTROS</p>
-        <h2>Tecnología al alcance de todos</h2>
-        <p>En Tecnología Altoque encontrarás productos tecnológicos, accesorios y soluciones para tu hogar, trabajo y entretenimiento.</p>
-    </section>
-</main>
-
-<footer class="footer">
-    <div><h3>Tecnología Altoque</h3><p>Tu tienda de tecnología.</p></div>
-    <div><h4>Categorías</h4><a href="#">Computadoras</a><a href="#">Periféricos</a><a href="#">Redes</a><a href="#">Gaming</a></div>
-    <div><h4>Atención</h4><p>Lunes a sábado</p><p>9:00 AM - 7:00 PM</p></div>
-</footer>
-
-<script src="js/script.js"></script>
+    <!-- Toda la lógica del sitio (menú, tema, carrito, filtros, carrusel) -->
+    <script src="js/script.js"></script>
 </body>
 </html>
