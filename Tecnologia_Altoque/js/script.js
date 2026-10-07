@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lista.innerHTML = carrito.map(item => `
             <div class="item-carrito">
-                <div class="item-img">${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : `<span class="emoji-prod">${item.emoji || '📦'}</span>`}</div>
+                <div class="item-img"><img src="${item.img || `img/productos/${item.id}.jpg`}" alt="${item.nombre}" data-id="${item.id}" data-emoji="${item.emoji || '📦'}" data-i="${item.img ? -1 : 0}"></div>
                 <div class="item-info">
                     <h3>${item.nombre}</h3>
                     <p class="item-precio-unit">${formatoMoneda(item.precio)} c/u</p>
@@ -180,7 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============ Productos (catálogo) ============
-    // Para usar foto real: pon img: 'img/productos/archivo.jpg'. Sin img se muestra el emoji.
+    // FOTOS: guarda la foto como img/productos/<id>.jpg (ej: 5.jpg para el teclado). También acepta .png y .webp.
+    // Si un producto no tiene foto, se muestra su emoji. (Si quieres otro nombre de archivo, agrega img: 'img/productos/lo-que-sea.jpg')
     // Catálogo: cat = categoría, marca = filtro del menú, tipo = solo laptops
     const PRODUCTOS = [
         { id: '1', nombre: 'Mouse Logitech G502 Hero', marca: 'Logitech', cat: 'perifericos', precio: 189.90, old: 209.90, img: 'img/productos/mouse.jpg', emoji: '🖱️' },
@@ -214,6 +215,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let textoBusqueda = '';
     const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
+    // Fotos automáticas: prueba img/productos/<id>.jpg, luego .png y .webp; si ninguna existe, muestra el emoji
+    const EXTENSIONES = ['jpg', 'png', 'webp'];
+    document.addEventListener('error', (e) => {        // el evento "error" de las <img> no sube, por eso se escucha en fase de captura (true)
+        const img = e.target;
+        if (img.tagName !== 'IMG' || !img.dataset.id) return;
+        const i = Number(img.dataset.i) + 1;           // siguiente extensión a probar
+        if (i < EXTENSIONES.length) {
+            img.dataset.i = i;
+            img.src = `img/productos/${img.dataset.id}.${EXTENSIONES[i]}`;
+        } else {                                        // no hay foto: cambia la imagen por el emoji
+            img.replaceWith(Object.assign(document.createElement('span'), { className: 'emoji-prod', textContent: img.dataset.emoji }));
+        }
+    }, true);
+
     // Filtra por categoría, marca, tipo y búsqueda, y crea las tarjetas
     const dibujarProductos = () => {
         const lista = PRODUCTOS.filter(p => (catActiva === 'todos' || p.cat === catActiva) && (!marcaActiva || norm(p.marca) === marcaActiva) && (!tipoActivo || p.tipo === tipoActivo) &&
@@ -224,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <article class="producto-card">
                 <div class="producto-img-wrapper">
                     <span class="badge-oferta">-${Math.round((1 - p.precio / p.old) * 100)}%</span>
-                    ${p.img ? `<img src="${p.img}" alt="${p.nombre}" loading="lazy">` : `<span class="emoji-prod">${p.emoji}</span>`}
+                    <img src="${p.img || `img/productos/${p.id}.jpg`}" alt="${p.nombre}" loading="lazy" data-id="${p.id}" data-emoji="${p.emoji}" data-i="${p.img ? -1 : 0}">
                 </div>
                 <div class="producto-body">
                     <p class="producto-marca">${p.marca}</p>

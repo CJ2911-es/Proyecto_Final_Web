@@ -643,3 +643,9 @@ html { scroll-behavior: smooth; }
 .coco-form { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--border); }
 .coco-form input { flex: 1; min-width: 0; padding: 10px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); outline: 0; font-size: 14px; }
 .coco-form button { width: 40px; border: 0; border-radius: 50%; background: #22c55e; color: #fff; cursor: pointer; font-size: 16px; }
+
+/* ====== Ajuste de fotos de producto ====== */
+/* Fondo blanco y overflow hidden: las fotos .jpg con fondo blanco se integran sin necesitar PNG, y al hacer zoom no se salen del recuadro */
+.producto-img-wrapper { background: #ffffff; overflow: hidden; }
+/* El descuento queda por encima de la foto aunque ésta se agrande al pasar el mouse */
+.badge-oferta { z-index: 2; }
