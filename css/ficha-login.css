@@ -1,0 +1,192 @@
+/* ==========================================================================
+   ficha-login.css — Ficha de producto mejorada + ventana de login/registro.
+   Se carga DESPUÉS de estilos.css. Para quitarla basta borrar su <link> del index.html.
+   Cambios marcados con "FIX" o "NUEVO".
+   ========================================================================== */
+
+/* Variables que usa esta hoja y que estilos.css no define */
+:root {
+    --stage: #ffffff; --ok: #15803d; --ok-bg: rgba(22, 163, 74, 0.10);
+    --danger: #dc2626; --radius: 14px; --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+:root[data-tema="dark"] { --ok: #4ade80; --ok-bg: rgba(74, 222, 128, 0.12); }
+
+/* ---------- 7. Ficha de producto ---------- */
+.modal-producto .prod-caja { max-width: 1040px; padding: 30px; }
+
+/* FIX: grid-template-columns y gap no hacen nada sin display:grid */
+.prod-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; align-items: start; }
+
+/* FIX: centrado de la imagen (antes quedaba pegada arriba a la izquierda) y position:relative para el badge */
+.prod-media {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    height: auto; aspect-ratio: 1 / 1; overflow: hidden; cursor: zoom-in;
+    background: var(--stage); border-radius: var(--radius); box-shadow: inset 0 0 0 1px var(--border);
+}
+.prod-media img { width: 92%; height: 92%; object-fit: contain; transition: transform 0.25s var(--ease); }
+.prod-media.zoom img { transform: scale(2.1); }
+.prod-media .badge-oferta { position: absolute; top: 12px; left: 12px; z-index: 1; }
+.prod-media .emoji-prod { font-size: 90px; }
+.prod-zoom-ayuda { margin-top: 8px; text-align: center; font-size: 12px; color: var(--text-muted); }
+
+.prod-chips { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.prod-chips .producto-marca { margin: 0; padding: 4px 10px; border-radius: 20px; background: var(--surface-alt); border: 1px solid var(--border); color: var(--secondary); }
+.prod-info h2 { font-size: 27px; margin: 12px 0 6px; }
+.prod-precios { background: none; padding: 4px 0 0; margin-bottom: 20px; }
+.prod-precios .precio-new { font-size: 38px; color: var(--heading); }
+
+/* FIX: gap necesita display:flex */
+.prod-compra { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.prod-compra .item-cantidad { padding: 6px 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); }
+.prod-compra .btn-cant { width: 30px; height: 30px; }
+.prod-compra .btn-pagar { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin: 0; height: 46px; }
+.prod-compra .btn-pagar svg, .prod-garantias svg, .prod-info-grid svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+.btn-secundario {
+    width: 100%; height: 46px; margin-bottom: 20px; border-radius: 12px; cursor: pointer;
+    border: 1.5px solid var(--heading); background: transparent; color: var(--heading); font-weight: 700;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.15s var(--ease);
+}
+.btn-secundario:hover { background: var(--heading); color: var(--bg); }
+.btn-secundario:active { transform: scale(0.98); }
+
+.prod-garantias { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.prod-garantias li { display: flex; align-items: center; gap: 10px; }
+.prod-garantias svg { color: var(--secondary); }
+
+.prod-detalle { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border); }
+.prod-detalle h3 { font-size: 19px; margin-bottom: 14px; }
+/* FIX: [hidden] perdía contra display:grid/flex en algunas secciones */
+.prod-detalle[hidden], .prod-nota[hidden] { display: none; }
+.prod-destacados { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.dest { padding: 14px 16px; border-radius: var(--radius); background: var(--surface-alt); border: 1px solid var(--border); border-left: 3px solid var(--secondary); }
+.dest strong { display: block; font-size: 15px; color: var(--heading); }
+.dest span { font-size: 12px; color: var(--text-muted); }
+.prod-ahorro { display: inline-block; margin-left: 10px; padding: 3px 10px; border-radius: 20px; font-size: 12.5px; font-weight: 700; color: var(--ok); background: var(--ok-bg); }
+
+/* Especificaciones: la tabla se dibuja como bloques en cuadrícula (sin cambiar el HTML que genera script.js) */
+.prod-specs, .prod-specs tbody { display: block; border: 0; width: 100%; }
+.prod-specs tbody { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.prod-specs tr { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; border-radius: 12px; background: var(--surface-alt); border: 1px solid var(--border); }
+.prod-specs th, .prod-specs td, .prod-specs tr:nth-child(even) td { display: block; width: auto; padding: 0; border: 0; background: none; text-align: left; }
+.prod-specs th { font-size: 11.5px; letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-muted); }
+.prod-specs td { font-size: 14.5px; font-weight: 600; color: var(--text); }
+
+.prod-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.prod-info-grid > div { display: grid; grid-template-columns: 32px 1fr; column-gap: 12px; padding: 14px; border-radius: var(--radius); background: var(--surface-alt); border: 1px solid var(--border); }
+.prod-info-grid svg { grid-row: span 2; width: 32px; height: 32px; padding: 7px; border-radius: 9px; background: var(--ok-bg); color: var(--ok); }
+.prod-info-grid strong { font-size: 14px; color: var(--heading); }
+.prod-info-grid span { font-size: 12.5px; color: var(--text-muted); }
+
+/* Relacionados */
+.rel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.rel-card {
+    display: flex; flex-direction: column; gap: 8px; padding: 10px; text-align: left; cursor: pointer;
+    background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius);
+    color: var(--text); transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.rel-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
+.rel-img { display: flex; align-items: center; justify-content: center; background: var(--stage); border-radius: 10px; height: 110px; overflow: hidden; }
+/* FIX: regla que estaba vacía */
+.rel-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.rel-nombre { font-size: 13px; line-height: 1.3; }
+.rel-precio { font-size: 14px; color: var(--heading); }
+
+@media (max-width: 760px) {
+    .modal-producto .prod-caja { padding: 22px 14px; }
+    .prod-layout { grid-template-columns: 1fr; gap: 18px; }
+    .prod-media { aspect-ratio: 4 / 3; }
+    .prod-specs tbody { grid-template-columns: 1fr; }
+    .prod-info h2 { font-size: 21px; }
+    .prod-precios .precio-new { font-size: 30px; }
+    .prod-zoom-ayuda { display: none; }
+}
+@media (hover: none) { .prod-media { cursor: default; } .prod-media.zoom img { transform: none; } }
+
+
+/* ---------- Login / registro / perfil ---------- */
+#modalCuenta .modal-caja {
+    position: relative; max-width: 420px; padding: 38px 32px 28px; border-radius: 22px;
+    border-top: 5px solid var(--secondary);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+}
+#modalCuenta .modal-caja h2 { font-size: 26px; margin-bottom: 4px; }
+#modalCuenta .modal-sub { margin-bottom: 22px; }
+#modalCuenta .form-auth label { display: block; margin-bottom: 14px; }
+#modalCuenta .form-auth input {
+    width: 100%; height: 48px; padding: 0 14px; border-radius: 12px;
+    border: 1.5px solid var(--border); background: var(--input-bg);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+}
+#modalCuenta .form-auth input:focus {
+    outline: none; background: var(--surface); border-color: var(--secondary);
+    box-shadow: 0 0 0 4px rgba(242, 106, 15, 0.16);
+}
+/* FIX: marca de error visible en el campo (script.js pone aria-invalid) */
+#modalCuenta .form-auth input[aria-invalid="true"] { border-color: var(--danger); }
+#modalCuenta .error { display: block; min-height: 16px; margin-top: 4px; font-size: 12.5px; color: var(--danger); }
+#modalCuenta .error-general { margin: 0 0 8px; font-size: 13.5px; color: var(--danger); }
+#modalCuenta .error-general:empty { display: none; }
+
+/* NUEVO: el "ojito" de contraseña que crea script.js (.pass-wrap / .pass-ver) no tenía estilos */
+.pass-wrap { position: relative; display: block; }
+.pass-wrap input { padding-right: 46px !important; }
+.pass-ver {
+    position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+    width: 34px; height: 34px; border: 0; border-radius: 8px; cursor: pointer;
+    background: transparent; font-size: 17px; line-height: 1;
+}
+.pass-ver:hover { background: var(--surface-alt); }
+
+#modalCuenta .aviso-compra { margin: 0 0 16px; padding: 10px 14px; border-radius: 10px; font-size: 13.5px; background: var(--ok-bg); color: var(--ok); }
+#modalCuenta .aviso-compra[hidden] { display: none; }
+#modalCuenta .form-auth .btn-pagar { width: 100%; height: 48px; margin-top: 6px; border-radius: 12px; font-size: 16px; }
+#modalCuenta .cambio-vista { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); text-align: center; }
+#modalCuenta .modal-x {
+    position: absolute; width: 34px; height: 34px; border-radius: 50%; top: 14px; right: 14px;
+    display: flex; align-items: center; justify-content: center; background: var(--surface-alt);
+}
+#modalCuenta .modal-x:hover { background: var(--border); }
+#modalCuenta .btn-vaciar { width: 100%; margin-top: 16px; }
+
+/* NUEVO: lista de pedidos del perfil */
+#modalCuenta .perfil-titulo { margin: 8px 0 10px; font-size: 16px; }
+#modalCuenta .lista-pedidos { list-style: none; margin: 0; padding: 0; max-height: 240px; overflow-y: auto; display: grid; gap: 8px; }
+#modalCuenta .lista-pedidos li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 10px; background: var(--surface-alt); border: 1px solid var(--border); font-size: 14px; }
+#modalCuenta .lista-pedidos .sin-pedidos { justify-content: center; color: var(--text-muted); }
+
+/* ---------- Iconos simples en el encabezado (SVG en vez de emojis) ---------- */
+.header-acciones { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.btn-menu, .btn-tema, .btn-cuenta, .carrito {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 42px; border-radius: 12px; color: #ffffff; font-weight: 600; cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.08);
+    transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.btn-menu { padding: 0 14px; margin-left: 0; }
+.btn-tema, .carrito { width: 42px; padding: 0; font-size: 0; }
+.btn-cuenta { padding: 0 14px; max-width: 150px; font-size: 14px; }
+.btn-cuenta span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-menu:hover, .btn-tema:hover, .btn-cuenta:hover, .carrito:hover {
+    background: rgba(255, 255, 255, 0.2); color: #ffffff; transform: translateY(-1px);
+}
+.btn-menu svg, .btn-tema svg, .btn-cuenta svg, .carrito svg { width: 19px; height: 19px; flex-shrink: 0; }
+.carrito { position: relative; }
+.carrito span { font-size: 11px; }
+/* FIX: los span de luna/sol envuelven al SVG; los alineamos para que no queden desfasados */
+.btn-tema .i-luna, .btn-tema .i-sol { display: flex; align-items: center; justify-content: center; }
+.btn-tema .i-sol { display: none; }
+.btn-tema[data-modo="dark"] .i-sol { display: flex; }
+.btn-tema[data-modo="dark"] .i-luna { display: none; }
+.buscador button { display: grid; place-items: center; }
+.buscador button svg { width: 20px; height: 20px; }
+
+@media (max-width: 600px) {
+    .btn-menu { padding: 0; width: 40px; height: 40px; }
+    .btn-menu span { display: none; }
+    .header-acciones { margin-left: auto; gap: 6px; }
+    .btn-tema, .carrito, .btn-cuenta { height: 40px; }
+    .btn-tema, .carrito { width: 40px; }
+    .btn-cuenta { padding: 0 10px; max-width: 104px; font-size: 13px; }
+}
+@media (max-width: 380px) { .btn-cuenta span { display: none; } .btn-cuenta { width: 40px; padding: 0; } }
