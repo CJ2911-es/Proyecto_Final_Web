@@ -562,7 +562,7 @@ html { scroll-behavior: smooth; }
 .beneficios { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 55px; }
 .beneficio { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; display: flex; align-items: center; gap: 14px; }
 .beneficio > span { font-size: 30px; width: 54px; height: 54px; border-radius: 14px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.beneficio h4 { font-size: 15px; color: var(--heading); }
+.beneficio h3 { font-size: 15px; color: var(--heading); }
 .beneficio p { font-size: 13px; color: var(--text-muted); }
 
 .categoria-card:hover { border-color: var(--secondary); }
@@ -595,10 +595,10 @@ html { scroll-behavior: smooth; }
 .modal-caja h2 { color: var(--heading); margin-bottom: 6px; }
 .modal-sub { color: var(--text-muted); margin-bottom: 18px; font-size: 14px; }
 .modal-x { position: absolute; top: 14px; right: 16px; border: 0; background: none; font-size: 20px; cursor: pointer; color: var(--text); }
-#formPago { text-align: left; }
-#formPago label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; }
-#formPago input, #formPago select { display: block; width: 100%; margin-top: 5px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 15px; outline: 0; }
-#formPago input:focus, #formPago select:focus { border-color: var(--secondary); }
+#formPago, .form-auth { text-align: left; }
+#formPago label, .form-auth label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; }
+#formPago input, #formPago select, .form-auth input { display: block; width: 100%; margin-top: 5px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 15px; outline: 0; }
+#formPago input:focus, #formPago select:focus, .form-auth input:focus { border-color: var(--secondary); }
 .ok-icono { font-size: 60px; margin-bottom: 8px; }
 
 .footer-copy { text-align: center; color: #94a3b8; font-size: 13px; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); }
@@ -665,7 +665,7 @@ html { scroll-behavior: smooth; }
     .beneficios { grid-template-columns: 1fr 1fr; gap: 10px; }
     .beneficio { padding: 12px; gap: 10px; }
     .beneficio > span { width: 40px; height: 40px; font-size: 22px; }
-    .beneficio h4 { font-size: 13px; }
+    .beneficio h3 { font-size: 13px; }
     .beneficio p { font-size: 11px; }
 
     /* Filtros en una sola fila que se desliza con el dedo */
@@ -722,4 +722,40 @@ html { scroll-behavior: smooth; }
     .nosotros-card h2 { font-size: 22px; }
     .nosotros-card p { font-size: 14px; }
     .footer { padding: 36px 5%; }
+}
+
+/* ====== Cuenta de usuario (login, registro y perfil) ====== */
+.btn-cuenta {
+    flex-shrink: 0; height: 46px; padding: 0 16px;
+    border-radius: 23px; border: 2px solid var(--white);
+    background: none; color: var(--white);
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    transition: var(--transition);
+    max-width: 170px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.btn-cuenta:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* Mensajes de validación de los formularios */
+.error { display: block; margin-top: 4px; color: #dc2626; font-size: 12px; font-weight: 600; }
+.error:empty { display: none; }
+.error-general { margin: 0 0 10px; color: #dc2626; font-size: 13px; font-weight: 600; text-align: left; }
+.error-general:empty { display: none; }
+input[aria-invalid="true"], select[aria-invalid="true"] { border-color: #dc2626 !important; }
+
+.cambio-vista { margin-top: 14px; font-size: 14px; color: var(--text-muted); }
+.cambio-vista a { color: var(--secondary); font-weight: 700; }
+
+/* Perfil: lista de pedidos */
+.perfil-titulo { margin: 6px 0 10px; text-align: left; font-size: 16px; color: var(--heading); }
+.lista-pedidos { list-style: none; margin: 0 0 18px; padding: 0; max-height: 220px; overflow-y: auto; text-align: left; }
+.lista-pedidos li {
+    display: flex; justify-content: space-between; gap: 10px;
+    margin-bottom: 8px; padding: 10px 12px;
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 13px; color: var(--text);
+}
+.lista-pedidos .sin-pedidos { justify-content: center; border-style: dashed; color: var(--text-muted); }
+
+@media (max-width: 600px) {
+    .btn-cuenta { height: 40px; padding: 0 12px; font-size: 13px; max-width: 110px; }
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tecnología Altoque: laptops, periféricos, audio, celulares y más con envíos a todo el Perú.">
     <title>Tecnología Altoque | Vive la tecnología</title>
     <link rel="icon" href="img/logo.jpg">
     <!-- Aplica el tema guardado antes de pintar la página (evita el parpadeo) -->
@@ -19,7 +20,7 @@
 
 <body>
     <!-- Barra superior con mensaje promocional -->
-    <div class="barra-superior">¡Vive la tecnología! Compra seguro las 24 horas del día :p</div>
+    <div class="barra-superior">¡Vive la tecnología! Compra seguro las 24 horas del día</div>
 
     <!-- ENCABEZADO fijo: logo, menú, buscador, botón de tema y carrito -->
     <header class="header">
@@ -29,14 +30,19 @@
         </div>
         <button class="btn-menu" id="btnMenu">☰ Menú</button>
 
-        <!-- Buscador: filtra los productos mientras escribes -->
+        <!-- Buscador : filtra los productos mientras escribes -->
         <div class="buscador">
-            <input type="text" placeholder="Busca productos, marcas y más...">
+            <input type="text" placeholder="Busca productos, marcas y más..." aria-label="Buscar productos">
             <button aria-label="Buscar">🔍</button>
         </div>
 
         <!-- Cambia entre tema claro y oscuro -->
         <button class="btn-tema" id="btnTema" aria-label="Cambiar tema claro/oscuro">🌙</button>
+
+        <!-- Cuenta: abre el login/registro, o el perfil si ya hay sesión (lo controla script.js) -->
+        <button class="btn-cuenta" id="btnCuenta" type="button" aria-label="Iniciar sesión">
+            👤 <span id="cuentaTexto">Ingresar</span>
+        </button>
 
         <!-- Abre el panel del carrito; el <span> es el contador de productos -->
         <button class="carrito flex-center" id="btnCarrito" aria-label="Abrir carrito">
@@ -53,7 +59,7 @@
         </div>
 
         <div class="menu-busqueda">
-            <input type="text" placeholder="Busca productos..."> 🔍
+            <input type="text" placeholder="Busca productos..." aria-label="Buscar productos"> 🔍
         </div>
 
         <nav class="categorias-menu">
@@ -132,7 +138,7 @@
                 <img src="img/banner.jpg" alt="Promoción Tecnología Altoque" loading="eager">
                 <div class="banner-contenido">
                     <p>TECNOLOGÍA PARA TODOS</p>
-                    <h1>Todo lo que necesitas :p<br>en un solo lugar</h1>
+                    <h1>Todo lo que necesitas<br>en un solo lugar</h1>
                     <button>Ver productos</button>
                 </div>
             </div>
@@ -161,10 +167,10 @@
 
         <!-- Franja de beneficios de la tienda -->
         <section class="beneficios">
-            <div class="beneficio"><span>🚚</span><div><h4>Envíos a todo el Perú</h4><p>Rápidos y seguros</p></div></div>
-            <div class="beneficio"><span>🛡️</span><div><h4>Garantía oficial</h4><p>En todos los productos</p></div></div>
-            <div class="beneficio"><span>💳</span><div><h4>Pago seguro</h4><p>Tarjeta, Yape o Plin</p></div></div>
-            <div class="beneficio"><span>💬</span><div><h4>Soporte 24/7</h4><p>Siempre te ayudamos</p></div></div>
+            <div class="beneficio"><span>🚚</span><div><h3>Envíos a todo el Perú</h3><p>Rápidos y seguros</p></div></div>
+            <div class="beneficio"><span>🛡️</span><div><h3>Garantía oficial</h3><p>En todos los productos</p></div></div>
+            <div class="beneficio"><span>💳</span><div><h3>Pago seguro</h3><p>Tarjeta, Yape o Plin</p></div></div>
+            <div class="beneficio"><span>💬</span><div><h3>Soporte 24/7</h3><p>Siempre te ayudamos</p></div></div>
         </section>
 
         <section class="seccion">
@@ -177,12 +183,12 @@
 
             <!-- Tarjetas de categorías: al hacer clic filtran los productos -->
             <div class="grid-categorias">
-                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/laptops.png" alt="Categoria laptops" width="95px"></div><h3>Computadoras</h3></div>
-                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatPerifericos.png" alt="Perifericos" width="95px"></div><h3>Periféricos</h3></div>
-                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/audio.png" alt="Audio" width="110px"></div><h3>Audio</h3></div>
-                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatCelular.webp" alt="Celulares" width="95px"></div><h3>Celulares</h3></div>
-                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatRedes.png" alt="Redes" width="95px"></div><h3>Redes</h3></div>
-                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatGaming.jpg" alt="Gaming" width="110px"></div><h3>Gaming</h3></div>
+                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/laptops.png" alt="Categoria laptops" width="95"></div><h3>Computadoras</h3></div>
+                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatPerifericos.png" alt="Perifericos" width="95"></div><h3>Periféricos</h3></div>
+                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/audio.png" alt="Audio" width="110"></div><h3>Audio</h3></div>
+                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatCelular.webp" alt="Celulares" width="95"></div><h3>Celulares</h3></div>
+                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatRedes.png" alt="Redes" width="95"></div><h3>Redes</h3></div>
+                <div class="categoria-card"><div class="categoria-icono"><img src="img/categorias/CatGaming.jpg" alt="Gaming" width="110"></div><h3>Gaming</h3></div>
             </div>
         </section>
 
@@ -271,15 +277,25 @@
             <div id="pagoForm">
                 <h2>Finalizar compra</h2>
                 <p class="modal-sub" id="pagoResumen"></p>
-                <form id="formPago">
-                    <label>Nombre completo<input type="text" id="pNombre" required minlength="3"></label>
-                    <label>Correo<input type="email" id="pCorreo" required></label>
-                    <label>Dirección de envío<input type="text" id="pDir" required minlength="5"></label>
+                <form id="formPago" novalidate>
+                    <label>Nombre completo
+                        <input type="text" id="pNombre" required minlength="3" maxlength="120" autocomplete="name">
+                        <small class="error" data-error-for="pNombre"></small>
+                    </label>
+                    <label>Correo
+                        <input type="email" id="pCorreo" required maxlength="150" autocomplete="email">
+                        <small class="error" data-error-for="pCorreo"></small>
+                    </label>
+                    <label>Dirección de envío
+                        <input type="text" id="pDir" required minlength="5" maxlength="255" autocomplete="street-address">
+                        <small class="error" data-error-for="pDir"></small>
+                    </label>
                     <label>Método de pago
                         <select id="pMetodo" required>
                             <option value="">Selecciona...</option>
                             <option>Tarjeta</option><option>Yape</option><option>Plin</option><option>Contra entrega</option>
                         </select>
+                        <small class="error" data-error-for="pMetodo"></small>
                     </label>
                     <button type="submit" class="btn-pagar">Confirmar pedido</button>
                 </form>
@@ -293,7 +309,69 @@
         </div>
     </div>
 
-    <!-- Toda la lógica del sitio (menú, tema, carrito, filtros, carrusel) -->
+    <!-- VENTANA DE CUENTA: tres vistas (login, registro y perfil); script.js muestra una a la vez -->
+    <div class="modal" id="modalCuenta">
+        <div class="modal-caja">
+            <button class="modal-x" id="cerrarCuenta" type="button" aria-label="Cerrar">✕</button>
+
+            <!-- Vista 1: iniciar sesión -->
+            <div id="vistaLogin">
+                <h2>Iniciar sesión</h2>
+                <p class="modal-sub">Entra para ver tus pedidos</p>
+                <form id="formLogin" class="form-auth" novalidate>
+                    <label>Correo
+                        <input type="email" id="lCorreo" autocomplete="email" required>
+                        <small class="error" data-error-for="lCorreo"></small>
+                    </label>
+                    <label>Contraseña
+                        <input type="password" id="lPass" autocomplete="current-password" required>
+                        <small class="error" data-error-for="lPass"></small>
+                    </label>
+                    <p class="error-general" id="lError" role="alert"></p>
+                    <button type="submit" class="btn-pagar">Ingresar</button>
+                </form>
+                <p class="cambio-vista">¿No tienes cuenta? <a href="#" id="irRegistro">Regístrate</a></p>
+            </div>
+
+            <!-- Vista 2: crear cuenta -->
+            <div id="vistaRegistro" hidden>
+                <h2>Crear cuenta</h2>
+                <p class="modal-sub">Es gratis y toma un minuto</p>
+                <form id="formRegistro" class="form-auth" novalidate>
+                    <label>Nombre completo
+                        <input type="text" id="rNombre" autocomplete="name" maxlength="120" required>
+                        <small class="error" data-error-for="rNombre"></small>
+                    </label>
+                    <label>Correo
+                        <input type="email" id="rCorreo" autocomplete="email" maxlength="150" required>
+                        <small class="error" data-error-for="rCorreo"></small>
+                    </label>
+                    <label>Contraseña (mínimo 8, con letras y números)
+                        <input type="password" id="rPass" autocomplete="new-password" required>
+                        <small class="error" data-error-for="rPass"></small>
+                    </label>
+                    <label>Repite la contraseña
+                        <input type="password" id="rPass2" autocomplete="new-password" required>
+                        <small class="error" data-error-for="rPass2"></small>
+                    </label>
+                    <p class="error-general" id="rError" role="alert"></p>
+                    <button type="submit" class="btn-pagar">Crear cuenta</button>
+                </form>
+                <p class="cambio-vista">¿Ya tienes cuenta? <a href="#" id="irLogin">Inicia sesión</a></p>
+            </div>
+
+            <!-- Vista 3: perfil del usuario con sesión iniciada -->
+            <div id="vistaPerfil" hidden>
+                <h2>Hola, <span id="perfilNombre"></span> 👋</h2>
+                <p class="modal-sub" id="perfilCorreo"></p>
+                <h3 class="perfil-titulo">Mis pedidos</h3>
+                <ul class="lista-pedidos" id="listaPedidos"></ul>
+                <button type="button" class="btn-vaciar" id="btnSalir">Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toda la lógica del sitio (menú, tema, carrito, filtros, carrusel, cuenta y pagos) -->
     <script src="js/script.js"></script>
 </body>
 </html>
