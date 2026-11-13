@@ -1,0 +1,4 @@
+# Archivos internos: solo los usan otros scripts PHP, nunca el navegador.
+<FilesMatch "^(config|conexion|sesion)\.php$">
+    Require all denied
+</FilesMatch>

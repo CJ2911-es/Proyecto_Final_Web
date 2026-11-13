@@ -1,0 +1,15 @@
+# Credenciales y configuración local
+/Tecnologia_Altoque/php/config.php
+.env
+.env.*
+
+# Archivos temporales
+*.log
+
+# Dependencias
+/vendor/
+
+# Archivos del sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
