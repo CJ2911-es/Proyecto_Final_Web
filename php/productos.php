@@ -16,7 +16,8 @@ $sql = "SELECT
             p.precio,
             p.precio_anterior AS old,
             p.imagen AS img,
-            p.emoji
+            p.emoji,
+            p.stock
         FROM productos p
         INNER JOIN categorias c ON p.id_categoria = c.id_categoria
         INNER JOIN marcas m ON p.id_marca = m.id_marca
@@ -25,6 +26,12 @@ $sql = "SELECT
 
 try {
     $productos = $conexion->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+    // stock: null = inventario sin inicializar (se vende sin límite), 0 = agotado, N = unidades reales
+    foreach ($productos as &$producto) {
+        $producto['stock'] = $producto['stock'] === null ? null : (int) $producto['stock'];
+    }
+    unset($producto);
 } catch (mysqli_sql_exception $e) {
     error_log('Error al listar productos: ' . $e->getMessage());
     responder_json(false, 'No se pudieron cargar los productos.', [], 500);

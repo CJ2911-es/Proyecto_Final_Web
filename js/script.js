@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const guardarCarrito = (carrito) => {
         try {
             localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
-        } catch (e) { }
+        } catch (e) {}
     };
 
     // ============ Productos desde MariaDB ============
@@ -78,18 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const reglaNombre = (v) =>
         v.length < 3 ? 'Escribe tu nombre completo (mínimo 3 caracteres).'
-            : v.length > 120 ? 'El nombre es demasiado largo (máximo 120 caracteres).'
-                : '';
+        : v.length > 120 ? 'El nombre es demasiado largo (máximo 120 caracteres).'
+        : '';
 
     const reglaCorreo = (v) =>
         !v ? 'Ingresa tu correo.'
-            : (!EMAIL_REGEX.test(v) || v.length > 150) ? 'Ingresa un correo válido, por ejemplo nombre@correo.com.'
-                : '';
+        : (!EMAIL_REGEX.test(v) || v.length > 150) ? 'Ingresa un correo válido, por ejemplo nombre@correo.com.'
+        : '';
 
     const reglaDireccion = (v) =>
         v.length < 5 ? 'Escribe tu dirección de envío (mínimo 5 caracteres).'
-            : v.length > 255 ? 'La dirección es demasiado larga (máximo 255 caracteres).'
-                : '';
+        : v.length > 255 ? 'La dirección es demasiado larga (máximo 255 caracteres).'
+        : '';
 
     const reglaMetodo = (v) => v ? '' : 'Selecciona un método de pago.';
 
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const reglaPasswordNueva = (v) =>
         v.length < 8 ? 'La contraseña debe tener al menos 8 caracteres.'
-            : v.length > 72 ? 'La contraseña es demasiado larga (máximo 72 caracteres).'
-                : (!/[A-Za-z]/.test(v) || !/\d/.test(v)) ? 'Debe incluir al menos una letra y un número.'
-                    : '';
+        : v.length > 72 ? 'La contraseña es demasiado larga (máximo 72 caracteres).'
+        : (!/[A-Za-z]/.test(v) || !/\d/.test(v)) ? 'Debe incluir al menos una letra y un número.'
+        : '';
 
     // Reglas por formulario: { id del campo: función de validación }
     const REGLAS_PAGO = {
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
         temaActual = localStorage.getItem(CLAVE_TEMA) || 'light';
-    } catch (e) { }
+    } catch (e) {}
 
     aplicarTema(temaActual);
 
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             localStorage.setItem(CLAVE_TEMA, temaActual);
-        } catch (e) { }
+        } catch (e) {}
     });
 
     // ============ Menú lateral y carrito ============
@@ -368,6 +368,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!item) return;
 
         if (accion === 'sumar') {
+            const prod = PRODUCTOS.find(x => x.id === id);
+
+            if (prod && item.cantidad >= limiteCompra(prod)) {
+                mostrarToast('No hay más unidades disponibles');
+                return;
+            }
+
             item.cantidad++;
         } else if (accion === 'restar') {
             item.cantidad--;
@@ -402,10 +409,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============ Imágenes de productos ============
-    const EXTENSIONES = [
-        'jpg', 'jpeg', 'png', 'webp', 'avif',
-        'JPG', 'JPEG', 'PNG', 'WEBP'
-    ];
+   const EXTENSIONES = [
+    'webp', 'jpg', 'jpeg', 'png', 'avif',
+    'WEBP', 'JPG', 'JPEG', 'PNG'
+];
 
     // Si una imagen de producto no carga, prueba otras extensiones y al final muestra un emoji
     document.addEventListener('error', (e) => {
@@ -428,6 +435,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, true);
 
+    // ============ Existencias (stock real que devuelve php/productos.php) ============
+    const estaAgotado = (p) => p.stock !== null && p.stock <= 0;
+    const pocasUnidades = (p) => p.stock !== null && p.stock > 0 && p.stock <= 5;
+    const limiteCompra = (p) => p.stock === null ? 99 : Math.min(99, p.stock);
+    const etiquetaDisp = (p) => estaAgotado(p) ? 'Agotado' : (pocasUnidades(p) ? 'Últimas ' + p.stock : 'Disponible');
+    const claseDisp = (p) => estaAgotado(p) ? ' agotado' : (pocasUnidades(p) ? ' pocas' : '');
+    const unidadesEnCarrito = (id) => (leerCarrito().find(i => i.id === id) || {}).cantidad || 0;
+
+    // Vuelve a pedir las existencias al servidor (por ejemplo tras un pedido rechazado por falta de stock)
+    const refrescarStock = async () => {
+        try {
+            const respuesta = await fetch('php/productos.php');
+            const datos = await respuesta.json();
+
+            if (!Array.isArray(datos)) return;
+
+            datos.forEach(d => {
+                const p = PRODUCTOS.find(x => x.id === String(d.id));
+                if (p) p.stock = d.stock === null || d.stock === undefined ? null : Number(d.stock);
+            });
+
+            dibujarProductos();
+        } catch (e) { /* si falla, se queda con lo que ya se mostraba */ }
+    };
+
     // ============ Dibujar catálogo ============
     const dibujarProductos = () => {
 
@@ -446,23 +478,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 : '') +
 
             CATS.map(([k, n]) => `
-                <button class="chip ${k === catActiva && !marcaActiva && !tipoActivo
-                    ? 'activo'
-                    : ''
+                <button class="chip ${
+                    k === catActiva && !marcaActiva && !tipoActivo
+                        ? 'activo'
+                        : ''
                 }" data-cat="${k}">${n}</button>
             `).join('');
 
         grid.innerHTML = productosFiltrados.length
             ? productosFiltrados.map(p => `
-                <article class="producto-card" data-id="${p.id}" tabindex="0" aria-label="Ver detalles de ${esc(p.nombre)}">
+                <article class="producto-card${estaAgotado(p) ? ' sin-stock' : ''}" data-id="${p.id}" tabindex="0" aria-label="Ver detalles de ${esc(p.nombre)}">
 
                     <div class="producto-img-wrapper">
 
                         ${p.old && p.old > p.precio
-                    ? `<span class="badge-oferta">
+                            ? `<span class="badge-oferta">
                                  -${Math.round((1 - (p.precio / p.old)) * 100)}%
                                </span>`
-                    : ''}
+                            : ''}
 
                         <img
                             src="${esc(p.img || `img/productos/${p.id}.jpg`)}"
@@ -482,21 +515,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="producto-fila">
                             <div class="precios-group">
                                 ${p.old && p.old > p.precio
-                    ? `<span class="precio-old">${formatoMoneda(p.old)}</span>`
-                    : ''}
+                                    ? `<span class="precio-old">${formatoMoneda(p.old)}</span>`
+                                    : ''}
                                 <span class="precio-new">${formatoMoneda(p.precio)}</span>
                             </div>
-                            <span class="estado-disp">Disponible</span>
+                            <span class="estado-disp${claseDisp(p)}">${etiquetaDisp(p)}</span>
                         </div>
 
-                        <button class="btn-add-cart" data-id="${p.id}">
+                        <button class="btn-add-cart" data-id="${p.id}"${estaAgotado(p) ? ' disabled' : ''}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"/></svg>
-                            <span class="txt">Agregar al carrito</span>
+                            <span class="txt">${estaAgotado(p) ? 'Agotado' : 'Agregar al carrito'}</span>
                         </button>
                     </div>
                 </article>
             `).join('')
-            : '<p class="sin-resultados">No se encontraron productos.</p>';
+            : '<p class="sin-resultados">No encontramos productos 😕 Prueba con otra búsqueda.</p>';
     };
 
     // ============ Cargar productos desde PHP ============
@@ -527,7 +560,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 old: p.old === null ? null : Number(p.old),
                 tipo: p.tipo || '',
                 img: p.img || '',
-                emoji: p.emoji || '📦'
+                emoji: p.emoji || '📦',
+                // null = inventario sin inicializar (se vende sin límite) · 0 = agotado · N = unidades reales
+                stock: p.stock === null || p.stock === undefined ? null : Number(p.stock)
             }));
 
             // Banner: "Laptops desde S/ X" calculado con precios reales de la BD (nada escrito a mano)
@@ -737,7 +772,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ============ Agregar al carrito ============
     // Agrega "cantidad" unidades de un producto al carrito (máximo 99 por producto, igual que el servidor)
+    // Devuelve true si se agregó algo. El servidor vuelve a validar las existencias al registrar el pedido.
     const agregarAlCarrito = (p, cantidad = 1) => {
+        if (estaAgotado(p)) {
+            mostrarToast('Este producto está agotado');
+            return false;
+        }
+
+        const yaEnCarrito = unidadesEnCarrito(p.id);
+        const disponibles = limiteCompra(p) - yaEnCarrito;
+
+        if (disponibles <= 0) {
+            mostrarToast('Ya tienes en el carrito todas las unidades disponibles');
+            return false;
+        }
+
+        const pedidas = cantidad;
+        cantidad = Math.min(cantidad, disponibles);
+
         const carrito = leerCarrito();
         const existente = carrito.find(item => item.id === p.id);
 
@@ -756,10 +808,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         guardarCarrito(carrito);
         actualizarContador();
-        mostrarToast('✓ Agregado al carrito');
+        mostrarToast(cantidad < pedidas
+            ? 'Se agregaron ' + cantidad + ' (máximo disponible)'
+            : '✓ Agregado al carrito');
 
         contador.classList.add('rebote');
         setTimeout(() => contador.classList.remove('rebote'), 400);
+        return true;
     };
 
     // Clic en "Agregar al carrito" de una tarjeta del catálogo
@@ -772,7 +827,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!p) return;
 
-        agregarAlCarrito(p, 1);
+        if (!agregarAlCarrito(p, 1)) return;
 
         // Feedback en el propio botón (vuelve a la normalidad al instante siguiente)
         const txt = btn.querySelector('.txt');
@@ -921,6 +976,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error al registrar pedido:', error);
             mostrarToast(error.message || 'Error al registrar la compra.');
+            refrescarStock(); // por si el rechazo fue por falta de existencias
 
         } finally {
             botonEnviar.disabled = false;
@@ -1026,6 +1082,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('perfilNombre').textContent = usuario.nombre;
         document.getElementById('perfilCorreo').textContent = usuario.correo;
+        document.getElementById('perfilAdmin').hidden = usuario.rol !== 'admin';
         listaPedidos.replaceChildren(crearItemLista('Cargando pedidos...', '', true));
 
         try {
@@ -1302,6 +1359,20 @@ document.addEventListener('DOMContentLoaded', () => {
         cantidadFicha = 1;
         document.getElementById('prodCantidad').textContent = '1';
 
+        // Disponibilidad real: etiqueta y botones según el stock
+        const chipDisp = modalProducto.querySelector('.prod-chips .estado-disp');
+        if (chipDisp) {
+            chipDisp.textContent = etiquetaDisp(p);
+            chipDisp.className = 'estado-disp' + claseDisp(p);
+        }
+        ['prodAgregar', 'prodComprar'].forEach(idBoton => {
+            const b = document.getElementById(idBoton);
+            if (b) {
+                b.disabled = estaAgotado(p);
+                b.title = estaAgotado(p) ? 'Producto agotado' : '';
+            }
+        });
+
         media.replaceChildren(crearImagenProducto(p));
 
         if (enOferta) {
@@ -1503,13 +1574,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('prodMas').addEventListener('click', () => {
-        cantidadFicha = Math.min(99, cantidadFicha + 1);
+        cantidadFicha = Math.min(productoAbierto ? limiteCompra(productoAbierto) : 99, cantidadFicha + 1);
         document.getElementById('prodCantidad').textContent = cantidadFicha;
     });
 
     // "Comprar ahora": agrega al carrito y continúa con el flujo normal de "Finalizar compra"
     document.getElementById('prodComprar')?.addEventListener('click', () => {
-        if (!productoAbierto) return;
+        if (!productoAbierto || estaAgotado(productoAbierto)) return;
         agregarAlCarrito(productoAbierto, cantidadFicha);
         cerrarProducto();
         setTimeout(() => document.getElementById('btnPagar').click(), 250);

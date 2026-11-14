@@ -64,12 +64,15 @@ function cerrar_sesion_completa(): void
 /**
  * Guarda al usuario en la sesión. Regenera el ID para evitar "session fixation".
  */
-function guardar_usuario_en_sesion(int $id, string $nombre, string $correo): void
+function guardar_usuario_en_sesion(int $id, string $nombre, string $correo, string $rol = 'cliente'): void
 {
     session_regenerate_id(true);
     $_SESSION['id_usuario'] = $id;
     $_SESSION['nombre']     = $nombre;
     $_SESSION['correo']     = $correo;
+    // Solo informativo para la interfaz: los permisos reales se vuelven a comprobar en la BD
+    // en cada endpoint administrativo (php/admin/_comun.php), nunca se confía en este valor.
+    $_SESSION['rol']        = $rol === 'admin' ? 'admin' : 'cliente';
 }
 
 /**
@@ -85,6 +88,7 @@ function usuario_actual(): ?array
         'id'     => (int) $_SESSION['id_usuario'],
         'nombre' => $_SESSION['nombre'],
         'correo' => $_SESSION['correo'],
+        'rol'    => $_SESSION['rol'] ?? 'cliente',
     ];
 }
 

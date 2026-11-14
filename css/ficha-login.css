@@ -744,3 +744,20 @@
         padding: 0;
     }
 }
+/* ---------- Disponibilidad según el inventario real ---------- */
+.estado-disp.agotado { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+.estado-disp.pocas   { background: rgba(245, 158, 11, 0.16); color: #b45309; }
+:root[data-tema="dark"] .estado-disp.agotado { color: #f87171; }
+:root[data-tema="dark"] .estado-disp.pocas   { color: #fbbf24; }
+.producto-card.sin-stock .producto-img-wrapper img { filter: grayscale(1); opacity: 0.55; }
+.btn-add-cart:disabled, .btn-add-cart:disabled:hover,
+#prodAgregar:disabled, #prodComprar:disabled {
+    background: #6b7280; color: #ffffff; opacity: 0.7; cursor: not-allowed; box-shadow: none; transform: none;
+}
+
+/* Enlace al panel (solo lo ve un administrador) */
+.enlace-admin {
+    display: inline-block; margin: 4px 0 14px; padding: 8px 14px; border-radius: 10px;
+    background: var(--secondary); color: #fff; font-weight: 700; font-size: 14px; text-decoration: none;
+}
+.enlace-admin:hover { filter: brightness(1.08); }

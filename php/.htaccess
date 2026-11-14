@@ -1,4 +1,4 @@
 # Archivos internos: solo los usan otros scripts PHP, nunca el navegador.
-<FilesMatch "^(config|conexion|sesion)\.php$">
+<FilesMatch "^(config|conexion|sesion|_inventario|_comun|_imagenes)\.php$">
     Require all denied
 </FilesMatch>

@@ -29,7 +29,7 @@ if (!filter_var($correo, FILTER_VALIDATE_EMAIL) || $password === '') {
 
 try {
     $stmt = $conexion->prepare(
-        'SELECT id_usuario, nombre, correo, password_hash
+        'SELECT id_usuario, nombre, correo, password_hash, rol
          FROM usuarios
          WHERE correo = ?
          LIMIT 1'
@@ -60,7 +60,8 @@ unset($_SESSION['intentos_login'], $_SESSION['bloqueo_hasta']);
 guardar_usuario_en_sesion(
     (int) $usuario['id_usuario'],
     $usuario['nombre'],
-    $usuario['correo']
+    $usuario['correo'],
+    (string) $usuario['rol']
 );
 
 responder_json(true, 'Sesión iniciada.', ['usuario' => usuario_actual()]);

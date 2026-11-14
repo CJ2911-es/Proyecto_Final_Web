@@ -8,9 +8,14 @@
  *  - El total se recalcula en el servidor con los precios de la BD
  *    (el navegador nunca decide cuánto se paga).
  *  - Todo ocurre en una transacción: o se guarda completo o no se guarda nada.
+ *  - Inventario: las filas de los productos se bloquean (SELECT ... FOR UPDATE) para que dos compras
+ *    simultáneas no vendan las mismas unidades; se verifica el stock real, se descuenta y se registra
+ *    un movimiento "venta" por producto, todo dentro de la misma transacción.
+ *    Un producto con stock NULL (inventario aún sin inicializar) se vende sin descuento, como antes.
  */
 require_once __DIR__ . '/sesion.php';
 require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/_inventario.php';
 
 /** Error de negocio (producto agotado, cantidad inválida...) cuyo mensaje sí se muestra al usuario. */
 class PedidoInvalido extends Exception {}
@@ -73,13 +78,9 @@ try {
         $idCliente = (int) $conexion->insert_id;
     }
 
-    // ---------- 2. Productos: precios reales desde la base de datos ----------
-    $stmtProducto = $conexion->prepare(
-        'SELECT nombre, precio FROM productos WHERE id_producto = ? AND activo = 1'
-    );
-
-    $productosPedido = [];
-    $total = 0;
+    // ---------- 2. Productos: validación, bloqueo de filas y precios reales desde la BD ----------
+    // Se normaliza el carrito: un producto repetido se suma en una sola línea.
+    $lineas = [];   // id => cantidad (en el orden en que llegó el carrito)
 
     foreach ($carrito as $item) {
         $idProducto = filter_var($item['id'] ?? null, FILTER_VALIDATE_INT);
@@ -92,23 +93,63 @@ try {
             throw new PedidoInvalido('Hay un producto o una cantidad no válida.');
         }
 
+        $lineas[$idProducto] = ($lineas[$idProducto] ?? 0) + $cantidad;
+
+        if ($lineas[$idProducto] > 99) {
+            throw new PedidoInvalido('Hay un producto o una cantidad no válida.');
+        }
+    }
+
+    // Las filas se bloquean SIEMPRE en orden de id (evita interbloqueos entre compras simultáneas).
+    $idsOrdenados = array_keys($lineas);
+    sort($idsOrdenados);
+
+    $stmtProducto = $conexion->prepare(
+        'SELECT nombre, precio, activo, stock FROM productos WHERE id_producto = ? FOR UPDATE'
+    );
+
+    $datosProducto = [];
+
+    foreach ($idsOrdenados as $idProducto) {
         $stmtProducto->bind_param('i', $idProducto);
         $stmtProducto->execute();
         $producto = $stmtProducto->get_result()->fetch_assoc();
 
-        if (!$producto) {
+        if (!$producto || (int) $producto['activo'] !== 1) {
             throw new PedidoInvalido('Uno de los productos ya no está disponible.');
         }
 
-        $precio   = (float) $producto['precio'];
+        $stock = $producto['stock'] === null ? null : (int) $producto['stock'];
+
+        if ($stock !== null && $stock < $lineas[$idProducto]) {
+            throw new PedidoInvalido(
+                $stock === 0
+                    ? '«' . $producto['nombre'] . '» está agotado. Quítalo del carrito para continuar.'
+                    : 'Solo quedan ' . $stock . ' unidad(es) de «' . $producto['nombre'] . '». Ajusta la cantidad para continuar.'
+            );
+        }
+
+        $datosProducto[$idProducto] = [
+            'nombre' => $producto['nombre'],
+            'precio' => (float) $producto['precio'],
+            'stock'  => $stock,
+        ];
+    }
+
+    $productosPedido = [];
+    $total = 0;
+
+    foreach ($lineas as $idProducto => $cantidad) {
+        $precio   = $datosProducto[$idProducto]['precio'];
         $subtotal = round($precio * $cantidad, 2);
 
         $productosPedido[] = [
             'id'       => $idProducto,
-            'nombre'   => $producto['nombre'],
+            'nombre'   => $datosProducto[$idProducto]['nombre'],
             'cantidad' => $cantidad,
             'precio'   => $precio,
             'subtotal' => $subtotal,
+            'stock'    => $datosProducto[$idProducto]['stock'],
         ];
 
         $total += $subtotal;
@@ -147,7 +188,36 @@ try {
         $stmtDetalle->execute();
     }
 
-    // ---------- 5. Confirmar toda la operación ----------
+    // ---------- 5. Inventario: descontar stock y registrar los movimientos de venta ----------
+    // Las filas ya están bloqueadas; el UPDATE además exige stock suficiente (doble seguro).
+    $stmtDescuento = $conexion->prepare(
+        'UPDATE productos SET stock = stock - ? WHERE id_producto = ? AND stock >= ?'
+    );
+    $stmtMovimiento = $conexion->prepare(
+        "INSERT INTO movimientos_inventario
+         (id_producto, tipo, cantidad, stock_anterior, stock_resultante, motivo, id_usuario, id_pedido)
+         VALUES (?, 'venta', ?, ?, ?, ?, NULL, ?)"
+    );
+    $motivoVenta = 'Venta del pedido ' . $codigoPedido;
+
+    foreach ($productosPedido as $p) {
+        if ($p['stock'] === null) {
+            continue; // inventario sin inicializar: no se controla este producto
+        }
+
+        $stmtDescuento->bind_param('iii', $p['cantidad'], $p['id'], $p['cantidad']);
+        $stmtDescuento->execute();
+
+        if ($stmtDescuento->affected_rows !== 1) {
+            throw new PedidoInvalido('«' . $p['nombre'] . '» ya no tiene existencias suficientes.');
+        }
+
+        $stockFinal = $p['stock'] - $p['cantidad'];
+        $stmtMovimiento->bind_param('iiiisi', $p['id'], $p['cantidad'], $p['stock'], $stockFinal, $motivoVenta, $idPedido);
+        $stmtMovimiento->execute();
+    }
+
+    // ---------- 6. Confirmar toda la operación ----------
     $conexion->commit();
 
     responder_json(true, 'Pedido registrado correctamente.', [
