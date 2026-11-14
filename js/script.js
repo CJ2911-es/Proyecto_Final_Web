@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const guardarCarrito = (carrito) => {
         try {
             localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
-        } catch (e) {}
+        } catch (e) { }
     };
 
     // ============ Productos desde MariaDB ============
@@ -78,18 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const reglaNombre = (v) =>
         v.length < 3 ? 'Escribe tu nombre completo (mínimo 3 caracteres).'
-        : v.length > 120 ? 'El nombre es demasiado largo (máximo 120 caracteres).'
-        : '';
+            : v.length > 120 ? 'El nombre es demasiado largo (máximo 120 caracteres).'
+                : '';
 
     const reglaCorreo = (v) =>
         !v ? 'Ingresa tu correo.'
-        : (!EMAIL_REGEX.test(v) || v.length > 150) ? 'Ingresa un correo válido, por ejemplo nombre@correo.com.'
-        : '';
+            : (!EMAIL_REGEX.test(v) || v.length > 150) ? 'Ingresa un correo válido, por ejemplo nombre@correo.com.'
+                : '';
 
     const reglaDireccion = (v) =>
         v.length < 5 ? 'Escribe tu dirección de envío (mínimo 5 caracteres).'
-        : v.length > 255 ? 'La dirección es demasiado larga (máximo 255 caracteres).'
-        : '';
+            : v.length > 255 ? 'La dirección es demasiado larga (máximo 255 caracteres).'
+                : '';
 
     const reglaMetodo = (v) => v ? '' : 'Selecciona un método de pago.';
 
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const reglaPasswordNueva = (v) =>
         v.length < 8 ? 'La contraseña debe tener al menos 8 caracteres.'
-        : v.length > 72 ? 'La contraseña es demasiado larga (máximo 72 caracteres).'
-        : (!/[A-Za-z]/.test(v) || !/\d/.test(v)) ? 'Debe incluir al menos una letra y un número.'
-        : '';
+            : v.length > 72 ? 'La contraseña es demasiado larga (máximo 72 caracteres).'
+                : (!/[A-Za-z]/.test(v) || !/\d/.test(v)) ? 'Debe incluir al menos una letra y un número.'
+                    : '';
 
     // Reglas por formulario: { id del campo: función de validación }
     const REGLAS_PAGO = {
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
         temaActual = localStorage.getItem(CLAVE_TEMA) || 'light';
-    } catch (e) {}
+    } catch (e) { }
 
     aplicarTema(temaActual);
 
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             localStorage.setItem(CLAVE_TEMA, temaActual);
-        } catch (e) {}
+        } catch (e) { }
     });
 
     // ============ Menú lateral y carrito ============
@@ -446,10 +446,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 : '') +
 
             CATS.map(([k, n]) => `
-                <button class="chip ${
-                    k === catActiva && !marcaActiva && !tipoActivo
-                        ? 'activo'
-                        : ''
+                <button class="chip ${k === catActiva && !marcaActiva && !tipoActivo
+                    ? 'activo'
+                    : ''
                 }" data-cat="${k}">${n}</button>
             `).join('');
 
@@ -460,10 +459,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="producto-img-wrapper">
 
                         ${p.old && p.old > p.precio
-                            ? `<span class="badge-oferta">
+                    ? `<span class="badge-oferta">
                                  -${Math.round((1 - (p.precio / p.old)) * 100)}%
                                </span>`
-                            : ''}
+                    : ''}
 
                         <img
                             src="${esc(p.img || `img/productos/${p.id}.jpg`)}"
@@ -483,8 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="producto-fila">
                             <div class="precios-group">
                                 ${p.old && p.old > p.precio
-                                    ? `<span class="precio-old">${formatoMoneda(p.old)}</span>`
-                                    : ''}
+                    ? `<span class="precio-old">${formatoMoneda(p.old)}</span>`
+                    : ''}
                                 <span class="precio-new">${formatoMoneda(p.precio)}</span>
                             </div>
                             <span class="estado-disp">Disponible</span>
@@ -497,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </article>
             `).join('')
-            : '<p class="sin-resultados">No encontramos productos 😕 Prueba con otra búsqueda.</p>';
+            : '<p class="sin-resultados">No se encontraron productos.</p>';
     };
 
     // ============ Cargar productos desde PHP ============
